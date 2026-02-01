@@ -39,9 +39,18 @@ The project is designed as a modular tool and is planned to be extended with con
 - FFmpeg (required by `yt-dlp` for audio extraction)
 
 ---
+
+## Installation
+
+```bash
+git clone https://github.com/patriq128/YoutSnake.git
+```
+---
+
 ## Run
 
 ```bash
+cd YoutSnake
 python YoutSnake.py
 ```
 
