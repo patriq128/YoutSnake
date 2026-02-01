@@ -1,5 +1,6 @@
 import yt_dlp
 import os
+import platform
 import time
 
 def main():
@@ -19,6 +20,7 @@ def main():
     print("\033[0mAuthor: @patriq128")
     print("\033[91m!!!For personal use only!!!")
     print("""\033[0m*type "exit" for exit :3 """)
+    print("\033[0mDevice OS: \033[92m" + what_OS())
     print("\033[0m----------------------------------------------------------------------------------------------------")
     print("""\033[0m1.) Download \033[94mmp3""")
     print("\033[0m----------------------------------------------------------------------------------------------------")
@@ -34,7 +36,9 @@ def main():
         main()
 
 def mp3down():
-
+    os.system('printf "\\033[9;1t"')
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("\033[2J\033[H", end="")
     print("""\033[94m ██████   ██████ ███████████   ████████ 
 ░░██████ ██████ ░░███░░░░░███ ███░░░░███
  ░███░█████░███  ░███    ░███░░░    ░███
@@ -84,5 +88,20 @@ def mp3down():
         ydl.download(playlist_links)
 
     print("done")
+
+def what_OS():
+    if "TERMUX_VERSION" in os.environ or os.path.exists("/data/data/com.termux"):
+        return "Termux"
+
+    os_name = platform.system()
+
+    if os_name == "Windows":
+        return "Windows"
+    elif os_name == "Darwin":
+        return "macOS"
+    elif os_name == "Linux":
+        return "Linux"
+    else:
+        return f"{os_name}"
 
 main()
