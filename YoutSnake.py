@@ -2,6 +2,7 @@ import os
 import platform
 import time
 import subprocess
+import sys
 
 def main():
     os.system('printf "\\033[9;1t"')
@@ -36,6 +37,7 @@ def main():
         main()
 
 def mp3down():
+    import yt_dlp
     os.system('printf "\\033[9;1t"')
     os.system('cls' if os.name == 'nt' else 'clear')
     print("\033[2J\033[H", end="")
@@ -99,7 +101,7 @@ def settup():
     except ImportError:
         print("Welcome in YoutSnake")
         print("""You dont have libary "yt_dlp" """)
-        print("Start download")
+        print("Start download?")
         y_or_n = input(""""y"/"n" """)
         if y_or_n == "y":
             download_libary()
@@ -115,12 +117,16 @@ def settup():
 
 def download_libary():
     print("\033[0mDevice OS: \033[92m" + what_OS())
-    if what_OS == "Termux":
-        cmd = ["pip", "install", "yt-dlp"]
-    if what_OS == "Linux":
-        cmd = ["pip", "install", "yt-dlp", "--break-system-packages"]
+    if what_OS() in ["Termux", "macOS", "Windows"]:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "yt-dlp"])
+    elif what_OS() == "Linux":
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "yt-dlp", "--break-system-packages"])
+    else:
+        print("Sorry, something went wrong")
     
-
+    print("Done")
+    time.sleep(1)
+    main()
 
 def what_OS():
     if "TERMUX_VERSION" in os.environ or os.path.exists("/data/data/com.termux"):
