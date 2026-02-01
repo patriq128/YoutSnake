@@ -1,4 +1,3 @@
-import yt_dlp
 import os
 import platform
 import time
