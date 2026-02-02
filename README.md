@@ -1,8 +1,7 @@
 <p float="left">
-  <img src="Images/Yout.png" width="250" style="margin-right: 20px;" />
-  <img src="Images/Snake.png" width="250" />
+  <img src="Images/Yout.png" width="250" height="250" style="margin-right: 20px;" />
+  <img src="Images/Snake.png" width="250" height="250" />
 </p>
-
 
 YoutSnake is a terminal-based media downloader written in Python.  
 It provides a clean CLI interface for downloading audio (MP3) from supported platforms using `yt-dlp`, with automatic dependency handling and basic OS detection.
