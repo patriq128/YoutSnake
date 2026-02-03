@@ -85,7 +85,9 @@ You are solely responsible for how you use this tool.
 
 ---
 
-## Disclaimer
+## Support me
 
-YoutSnake is not affiliated with YouTube, Google, or any other media platform.  
-All trademarks belong to their respective owners.
+If you like this project (or not ), feel free to support me on Ko-fi.
+I'm a student working on future projects and every support help :3
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X01GCK06)
