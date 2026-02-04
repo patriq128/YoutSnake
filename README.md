@@ -59,6 +59,7 @@ python YoutSnake.py
 
 If `yt-dlp` is not installed, YoutSnake will automatically offer to install it.
 
+**Note:** YoutSnake is also available as a **YoutSnake.exe** for Windows. -it may contain bugs and unexpected issues. Use at your own risk.
 ---
 
 ## Usage
