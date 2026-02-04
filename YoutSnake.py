@@ -3,6 +3,7 @@ import platform
 import time
 import subprocess
 import sys
+import shutil
 
 def main():
     os.system('printf "\\033[9;1t"')
@@ -84,7 +85,7 @@ def mp3down():
         'quiet': False,
     }
 
-    print("Start donwload")
+    print("Start download")
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download(playlist_links)
@@ -97,10 +98,20 @@ def settup():
     print("\033[2J\033[H", end="")
     try:
         import yt_dlp
-        main()
+        if is_ffmpeg():
+            main()
+        else:
+            print("""\033[0mYou dont have \033[91m"ffmpeg" """)
+            print("\033[92mStart download?")
+            ffmpeg_input = input("""\033[92m"y"\033[0m/\033[91m"n"\033[0m: """)
+            if ffmpeg_input == "y":
+                download_ffmpeg()
+                
     except ImportError:
         print("\033[0mWelcome in \033[91mYout\033[92mSnake")
         print("""\033[0mYou dont have libary \033[91m"yt_dlp" """)
+        if not is_ffmpeg():
+            print("""\033[0mAnd \033[91m"ffmpeg" """)    
         print("\033[92mStart download?")
         y_or_n = input("""\033[92m"y"\033[0m/\033[91m"n"\033[0m: """)
         if y_or_n == "y":
@@ -117,7 +128,7 @@ def settup():
 
 def download_libary():
     print("\033[0mDevice OS: \033[92m" + what_OS() + "\033[94m")
-    if what_OS() in ["Termux", "macOS", "Windows"]:
+    if what_OS() in ["Termux", "MacOS", "Windows"]:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "yt-dlp"])
     elif what_OS() == "Linux":
         subprocess.check_call([sys.executable, "-m", "pip", "install", "yt-dlp", "--break-system-packages"])
@@ -128,6 +139,32 @@ def download_libary():
     time.sleep(1)
     main()
 
+def download_ffmpeg():
+    if what_OS() == "Linux":
+        subprocess.check_call(["sudo", "apt", "install", "-y", "ffmpeg"])
+    elif what_OS == "Termux":
+        subprocess.check_call(["pkg", "install", "-y", "ffmpeg"])
+    elif what_OS == "MacOS":
+        subprocess.check_call(["brew", "install", "ffmpeg"])
+    elif what_OS == "Windows":
+        import urllib.request
+        import zipfile
+        url = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip"
+        zip_path = "ffmpeg.zip"
+        extract_path = "ffmpeg"
+        urllib.request.urlretrieve(url, zip_path)
+
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall(extract_path)
+        ffmpeg_bin = os.path.join(extract_path, "ffmpeg-release-essentials", "bin", "ffmpeg.exe")
+    else:
+        print("\033[91mSorry, something went wrong")
+
+    print("\033[91mDone")
+    time.sleep(1)
+    main()
+
+
 def what_OS():
     if "TERMUX_VERSION" in os.environ or os.path.exists("/data/data/com.termux"):
         return "Termux"
@@ -137,10 +174,13 @@ def what_OS():
     if os_name == "Windows":
         return "Windows"
     elif os_name == "Darwin":
-        return "macOS"
+        return "MacOS"
     elif os_name == "Linux":
         return "Linux"
     else:
         return f"{os_name}"
+
+def is_ffmpeg():
+    return shutil.which("ffmpeg") is not None
 
 settup()
