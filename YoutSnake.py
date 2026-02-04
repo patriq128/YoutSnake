@@ -6,9 +6,7 @@ import sys
 import shutil
 import yt_dlp
 
-os.makedirs('Music', exist_ok=True)
 def main():
-    os.system('cls' if os.name == 'nt' else 'clear')
     print("\033[2J\033[H", end="")
     print("""
 \033[91m█████ █████                      █████     \033[92m█████████                       █████              
@@ -25,12 +23,15 @@ def main():
     print("""\033[0m*type "exit" for exit :3 """)
     print("\033[0mDevice OS: \033[92m" + what_OS())
     print("\033[0m----------------------------------------------------------------------------------------------------")
-    print("""\033[0m1.) Download \033[94mMP3""")
+    print("""\033[0m1.) Download \033[94mMP3
+\033[0m2.) Download \033[35mMP4""")
     print("\033[0m----------------------------------------------------------------------------------------------------")
     choose_main = input("\033[0mChoose option:")
 
     if choose_main == "1":
         mp3down()
+    elif choose_main == "2":
+        mp4down()
     elif choose_main == "exit":
         exit()
     else:
@@ -39,7 +40,6 @@ def main():
         main()
 
 def mp3down():
-    os.system('cls' if os.name == 'nt' else 'clear')
     print("\033[2J\033[H", end="")
     print("""\033[94m ██████   ██████ ███████████   ████████ 
 ░░██████ ██████ ░░███░░░░░███ ███░░░░███
@@ -63,14 +63,10 @@ def mp3down():
         link = input("> ").strip()
         if link.lower() == "ok":
             break
-        if link:
-            playlist_links.append(link)
         if link.lower() == "exit":
             exit()
-
-    if not playlist_links:
-        print("exit")
-        exit()
+        if link:
+            playlist_links.append(link)
 
     ydl_opts = {
         'format': 'bestaudio/best',
@@ -87,12 +83,82 @@ def mp3down():
     print("Start download")
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download(playlist_links)
+        for link in playlist_links:
+            info = ydl.extract_info(link, download=False)
+            if 'entries' in info:
+                print(f"Downloading playlist: {info.get('title')}")
+                ydl.download([link])
+            else:
+                print(f"Downloading single: {info.get('title')}")
+                single_opts = ydl_opts.copy()
+                single_opts['outtmpl'] = 'Music/Single/%(title)s.%(ext)s'
+                with yt_dlp.YoutubeDL(single_opts) as single_ydl:
+                    single_ydl.download([link])
 
-    print("done")
+        print("Done")
+
+def mp4down():
+        print("\033[2J\033[H", end="")
+        print("""\033[35m  ██████   ██████ ███████████  █████ █████ 
+▒▒██████ ██████ ▒▒███▒▒▒▒▒███▒▒███ ▒▒███  
+ ▒███▒█████▒███  ▒███    ▒███ ▒███  ▒███ █
+ ▒███▒▒███ ▒███  ▒██████████  ▒███████████
+ ▒███ ▒▒▒  ▒███  ▒███▒▒▒▒▒▒   ▒▒▒▒▒▒▒███▒█
+ ▒███      ▒███  ▒███               ▒███▒ 
+ █████     █████ █████              █████ 
+▒▒▒▒▒     ▒▒▒▒▒ ▒▒▒▒▒              ▒▒▒▒▒  
+                                          """)
+        print("""\033[92m                                                                
+▄█████ ▄▄  ▄▄  ▄▄▄  ▄▄ ▄▄ ▄▄▄▄▄ 
+▀▀▀▄▄▄ ███▄██ ██▀██ ██▄█▀ ██▄▄  
+█████▀ ██ ▀██ ██▀██ ██ ██ ██▄▄▄ 
+                                    \033[0m""")
+        print("""*Paste link, click enter and you can paste another link and when you`re done just type "ok".""")
+        print("\033[0m----------------------------------------------------------------------------------------------------")
+        os.makedirs("Videos/Single", exist_ok=True)
+        os.makedirs("Videos/Playlists", exist_ok=True)
+
+        playlist_links = []
+
+        while True:
+            link = input("> ").strip()
+            if link.lower() == "ok":
+                break
+            if link.lower() == "exit":
+                exit()
+            if link:
+                playlist_links.append(link)
+
+        ydl_opts = {
+            'format': 'bestvideo+bestaudio/best',
+            'merge_output_format': 'mp4',
+            'outtmpl': 'Videos/Playlists/%(playlist_title)s/%(title)s.%(ext)s',
+            'postprocessors': [{
+                'key': 'FFmpegVideoConvertor',
+                'preferedformat': 'mp4',
+            }],
+            'ignoreerrors': True,
+            'quiet': False,
+        }
+
+        print("Start download")
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            for link in playlist_links:
+                info = ydl.extract_info(link, download=False)
+                if 'entries' in info:
+                    print(f"Downloading playlist: {info.get('title')}")
+                    ydl.download([link])
+                else:
+                    print(f"Downloading single: {info.get('title')}")
+                    single_opts = ydl_opts.copy()
+                    single_opts['outtmpl'] = 'Videos/Single/%(title)s.%(ext)s'
+                    with yt_dlp.YoutubeDL(single_opts) as single_ydl:
+                        single_ydl.download([link])
+
+        print("Done")
 
 def settup():
-    os.system('cls' if os.name == 'nt' else 'clear')
     print("\033[2J\033[H", end="")
     try:
         import yt_dlp
