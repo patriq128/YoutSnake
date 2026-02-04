@@ -143,11 +143,11 @@ def download_ffmpeg():
     print("\033[0mDevice OS: \033[92m" + what_OS() + "\033[94m")
     if what_OS() == "Linux":
         subprocess.check_call(["sudo", "apt", "install", "-y", "ffmpeg"])
-    elif what_OS == "Termux":
+    elif what_OS() == "Termux":
         subprocess.check_call(["pkg", "install", "-y", "ffmpeg"])
-    elif what_OS == "MacOS":
+    elif what_OS() == "MacOS":
         subprocess.check_call(["brew", "install", "ffmpeg"])
-    elif what_OS == "Windows":
+    elif what_OS() == "Windows":
         import urllib.request
         import zipfile
         url = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip"
