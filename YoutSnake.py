@@ -140,6 +140,7 @@ def download_libary():
     main()
 
 def download_ffmpeg():
+    print("\033[0mDevice OS: \033[92m" + what_OS() + "\033[94m")
     if what_OS() == "Linux":
         subprocess.check_call(["sudo", "apt", "install", "-y", "ffmpeg"])
     elif what_OS == "Termux":
