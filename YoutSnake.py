@@ -6,8 +6,8 @@ import sys
 import shutil
 import yt_dlp
 
+os.makedirs('Music', exist_ok=True)
 def main():
-    os.system('printf "\\033[9;1t"')
     os.system('cls' if os.name == 'nt' else 'clear')
     print("\033[2J\033[H", end="")
     print("""
@@ -39,7 +39,6 @@ def main():
         main()
 
 def mp3down():
-    os.system('printf "\\033[9;1t"')
     os.system('cls' if os.name == 'nt' else 'clear')
     print("\033[2J\033[H", end="")
     print("""\033[94m ██████   ██████ ███████████   ████████ 
@@ -93,7 +92,6 @@ def mp3down():
     print("done")
 
 def settup():
-    os.system('printf "\\033[9;1t"')
     os.system('cls' if os.name == 'nt' else 'clear')
     print("\033[2J\033[H", end="")
     try:
@@ -106,15 +104,15 @@ def settup():
             ffmpeg_input = input("""\033[92m"y"\033[0m/\033[91m"n"\033[0m: """)
             if ffmpeg_input == "y":
                 download_ffmpeg()
-            elif y_or_n == "n":
-            print("\033[91mWithout ffmpeg its dont gonna work")
-            print("\033[0mExiting...")
-            time.sleep(2)
-            exit()
-        else:
-            print("""\033[0mType only \033[92m"y" \033[0mor \033[91m"n" """)
-            time.sleep(1)
-            settup()
+            elif ffmpeg_input == "n":
+                print("\033[91mWithout ffmpeg its dont gonna work")
+                print("\033[0mExiting...")
+                time.sleep(2)
+                exit()
+            else:
+                print("""\033[0mType only \033[92m"y" \033[0mor \033[91m"n" """)
+                time.sleep(1)
+                settup()
                 
     except ImportError:
         print("\033[0mWelcome in \033[91mYout\033[92mSnake")
