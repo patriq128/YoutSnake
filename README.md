@@ -75,6 +75,18 @@ Downloaded files are saved into the `Music/` directory.
 
 ---
 
+## Shortcuts
+
+For MP3:
+```bash
+python YoutSnake.py --mp3
+```
+
+For MP4:
+```bash
+python YoutSnake.py --mp4
+```
+
 ## Warning
 
 This project is intended **for personal and educational use only**.
