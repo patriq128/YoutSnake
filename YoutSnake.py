@@ -258,4 +258,12 @@ def what_OS():
 def is_ffmpeg():
     return shutil.which("ffmpeg") is not None
 
-settup()
+def run():
+    if "--mp3" in sys.argv:
+        mp3down()
+    elif "--mp4" in sys.argv:
+        mp4down()
+    else:
+        settup()
+
+run()
