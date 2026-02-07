@@ -4,7 +4,6 @@ import time
 import subprocess
 import sys
 import shutil
-import yt_dlp
 
 def main():
     print("\033[2J\033[H", end="")
@@ -40,6 +39,7 @@ def main():
         main()
 
 def mp3down():
+    import yt_dlp
     print("\033[2J\033[H", end="")
     print("""\033[94m ██████   ██████ ███████████   ████████ 
 ░░██████ ██████ ░░███░░░░░███ ███░░░░███
@@ -98,6 +98,7 @@ def mp3down():
         print("Done")
 
 def mp4down():
+        import yt_dlp
         print("\033[2J\033[H", end="")
         print("""\033[35m  ██████   ██████ ███████████  █████ █████ 
 ▒▒██████ ██████ ▒▒███▒▒▒▒▒███▒▒███ ▒▒███  
